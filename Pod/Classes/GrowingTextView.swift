@@ -169,9 +169,15 @@ open class GrowingTextView: UITextView {
     // Trim white space and new line characters when end editing.
     @objc func textDidEndEditing(notification: Notification) {
         if let sender = notification.object as? GrowingTextView, sender == self {
-            if trimWhiteSpaceWhenEndEditing {
-                text = text?.trimmingCharacters(in: .whitespacesAndNewlines)
+            
+            if let attributtedString = attributedText {
+                attributedText = attributtedString
                 setNeedsDisplay()
+            } else {
+                if trimWhiteSpaceWhenEndEditing {
+                    text = text?.trimmingCharacters(in: .whitespacesAndNewlines)
+                    setNeedsDisplay()
+                }
             }
             scrollToCorrectPosition()
         }
